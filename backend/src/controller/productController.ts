@@ -1,26 +1,20 @@
 import type { Request, Response } from "express";
 import { Product } from "../model/Product";
+import { asyncHandler } from "../utils/asyncHandler";
 
-export const getAllProducts = async (req: Request, resp: Response) => {
-  try {
+export const getAllProducts = asyncHandler(
+  async (req: Request, resp: Response) => {
     const products = await Product.find({});
     resp.status(200).json({
       success: true,
       status: 200,
       data: products,
     });
-  } catch (ex) {
-    console.error(ex);
-    resp.status(500).json({
-      success: false,
-      status: 500,
-      message: "server error",
-    });
-  }
-};
+  },
+);
 
-export const getProductById = async (req: Request, resp: Response) => {
-  try {
+export const getProductById = asyncHandler(
+  async (req: Request, resp: Response) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
       resp.status(404).json({
@@ -35,12 +29,5 @@ export const getProductById = async (req: Request, resp: Response) => {
       status: 200,
       data: product,
     });
-  } catch (ex) {
-    console.error(ex);
-    resp.status(500).json({
-      success: false,
-      status: 500,
-      message: "server error",
-    });
-  }
-};
+  },
+);
