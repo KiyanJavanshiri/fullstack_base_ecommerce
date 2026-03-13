@@ -15,12 +15,13 @@ export const getAllProducts = asyncHandler(
 
 export const getProductById = asyncHandler(
   async (req: Request, resp: Response) => {
-    const product = await Product.findById(req.params.id);
+    const id = req.params.id;
+    const product = await Product.findById(id);
     if (!product) {
       resp.status(404).json({
         success: true,
         status: 404,
-        data: null,
+        message: `Product with id ${id} was not found`,
       });
       return;
     }
@@ -28,6 +29,39 @@ export const getProductById = asyncHandler(
       success: true,
       status: 200,
       data: product,
+    });
+  },
+);
+
+export const createProduct = asyncHandler(
+  async (req: Request, resp: Response) => {
+    const createdProduct = await Product.create(req.body);
+    resp.status(201).json({
+      success: true,
+      status: 201,
+      data: createdProduct,
+    });
+  },
+);
+
+export const deleteProductById = asyncHandler(
+  async (req: Request, resp: Response) => {
+    const id = req.params.id;
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      resp.status(404).json({
+        success: false,
+        status: 404,
+        message: `Product with id ${id} was not found`,
+      });
+
+      return;
+    }
+
+    resp.status(200).json({
+      success: true,
+      status: 200,
     });
   },
 );

@@ -4,6 +4,8 @@ const { Schema } = mongoose;
 
 const clothingSizes = ["XS", "S", "M", "L", "XL"];
 const shoeSizes = ["36", "37", "38", "39", "40", "41", "42", "43", "44"];
+const clothingsSubCategory = ["t-shirts", "jackets", "hoodie", "shorts"];
+const shoesSubCategory = ["sneakers"];
 
 const productSchema = new Schema(
   {
@@ -31,8 +33,18 @@ const productSchema = new Schema(
     subCategory: {
       type: String,
       enum: {
-        values: ["sneakers", "t-shirts", "jackets"],
+        values: [...clothingsSubCategory, ...shoesSubCategory],
         message: "{VALUE} is not correct subcategory for any clothings",
+      },
+      validate: {
+        validator: function (subCategory: string) {
+          const allowed =
+            this.category === "clothing"
+              ? clothingsSubCategory
+              : shoesSubCategory;
+          return allowed.includes(subCategory);
+        },
+        message: `subCategory is not correct for your category`,
       },
       required: [true, "subCategory is required"],
     },
