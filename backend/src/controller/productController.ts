@@ -1,14 +1,32 @@
 import type { Request, Response } from "express";
 import { Product } from "../model/Product";
 import { asyncHandler } from "../utils/asyncHandler";
+import { buildProductFilter } from "../utils/getProductsFilter";
 
 export const getAllProducts = asyncHandler(
   async (req: Request, resp: Response) => {
-    const products = await Product.find({});
+    const { page = 1, limit = 10, projection, sort } = req.query;
+    const filter = buildProductFilter(req.query);
+
+    let result = Product.find(filter);
+
+    if (sort) {
+      result.sort(sort as string);
+    }
+
+    result = result.skip((+page - 1) * +limit).limit(+limit);
+
+    if (projection) {
+      const filedList = projection.toString().replaceAll(",", " ");
+      result = result.select(filedList);
+    }
+
+    const products = await result;
     resp.status(200).json({
       success: true,
       status: 200,
       data: products,
+      count: products.length
     });
   },
 );
