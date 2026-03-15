@@ -8,12 +8,13 @@ type TFormInputProps<T> = {
   placeholder: string;
   error?: string;
   type?: HTMLInputElement["type"];
+  defaultValue: string;
 };
 
 const FormInput = <T extends Record<string, string>>(
   props: TFormInputProps<T>,
 ) => {
-  const { name, id, placeholder, error, type = "text" } = props;
+  const { name, id, placeholder, error, type = "text", defaultValue } = props;
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -24,6 +25,7 @@ const FormInput = <T extends Record<string, string>>(
           name={name as string}
           placeholder={placeholder}
           type={type === "password" ? (isVisible ? "text" : type) : type}
+          defaultValue={defaultValue}
           className="pb-3.5 border-b border-[#E8ECEF] pr-4 text-black text-base leading-6.5 w-full outline-none transition-colors duration-100 ease-in-out peer focus:border-black placeholder:text-[#6C7275]"
         />
         {type === "password" && (
@@ -47,6 +49,11 @@ const FormInput = <T extends Record<string, string>>(
           </button>
         )}
       </div>
+      {error && (
+        <p className="text-[12px] text-red-500 font-normal leading-6.5 mt-1">
+          {error}
+        </p>
+      )}
     </fieldset>
   );
 };
