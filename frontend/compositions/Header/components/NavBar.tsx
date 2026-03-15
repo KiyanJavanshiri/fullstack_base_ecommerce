@@ -13,7 +13,7 @@ const NavBar = () => {
           <li key={i}>
             <Link
               href={path}
-              className={`text-sm leading-6 font-medium ${pathname === path ? "text-black" : "text-[#6C7275]"}`}
+              className={`text-sm leading-6 font-medium capitalize ${pathname === path ? "text-black" : "text-[#6C7275]"}`}
             >
               {title}
             </Link>
