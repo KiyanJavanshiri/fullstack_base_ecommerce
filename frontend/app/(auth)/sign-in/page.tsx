@@ -1,40 +1,40 @@
-import Image from "next/image";
-import Logo from "@/components/Logo";
+"use client";
+import { useActionState } from "react";
+import z from "zod";
+import { authSchema, type TAuthFormState } from "@/utils/validationSchemas";
 import Link from "next/link";
 import FormInput from "@/components/Input/FormInput";
+import Button from "@/components/Button/Button";
+
+type TSignInFormFields = Pick<z.infer<typeof authSchema>, "email" | "password">;
 
 const SignInPage = () => {
   return (
-    <section className="pb-10 h-screen flex flex-col gap-10 md:flex-row md:gap-22">
-      <div className="relative h-107.5 md:h-screen">
-        <div className="absolute left-1/2 top-8 -translate-x-1/2 z-1">
-          <Logo />
-        </div>
-        <Image
-          src="/images/authBg.jpg"
-          alt="auth screen bg"
-          priority
-          fill
-          sizes="(max-width: 768px) 50vw, 100vw"
-          className="object-cover"
+    <div>
+      <h2 className="text-[40px] text-black leading-10 font-medium">Sign In</h2>
+      <p className="mt-6 text-base leading-4 text-[#6C7275] font-normal">
+        Don’t have an accout yet?{" "}
+        <Link className="text-[#38CB89] font-semibold" href="/sign-up">
+          Sign Up
+        </Link>
+      </p>
+      <form className="mt-8 flex flex-col gap-8">
+        <FormInput<TSignInFormFields>
+          placeholder="Email address"
+          id="email"
+          name="email"
         />
-      </div>
-      <div className="px-8 md:p-0">
-        <h2 className="text-[40px] text-black leading-10 font-medium">
+        <FormInput<TSignInFormFields>
+          placeholder="Password"
+          id="password"
+          name="password"
+          type="password"
+        />
+        <Button className="inline-block w-full text-base leading-6.5 py-2.5 bg-black text-white font-medium rounded-lg">
           Sign In
-        </h2>
-        <p className="mt-6 text-base leading-4 text-[#6C7275] font-normal">
-          Don’t have an accout yet?{" "}
-          <Link className="text-[#38CB89] font-semibold" href="/sign-up">
-            Sign Up
-          </Link>
-        </p>
-        <form className="mt-8 flex flex-col gap-8">
-          <FormInput placeholder="Email address" id="email" name="email" />
-          <FormInput placeholder="Password" id="password" name="password" type="password"/>
-        </form>
-      </div>
-    </section>
+        </Button>
+      </form>
+    </div>
   );
 };
 
