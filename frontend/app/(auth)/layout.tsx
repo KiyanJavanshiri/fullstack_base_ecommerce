@@ -1,4 +1,3 @@
-import Logo from "@/components/Logo";
 import Image from "next/image";
 import { ReactNode } from "react";
 
@@ -6,9 +5,9 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="grid grid-cols-1 items-center gap-10 md:gap-22 md:grid-cols-2">
       <div className="relative w-full min-h-107.5 md:h-screen md:max-w-175 justify-self-start">
-        <div className="absolute left-1/2 top-8 -translate-x-1/2 z-1">
-          <Logo />
-        </div>
+        <h1 className="text-2xl leading-6 text-black font-medium absolute left-1/2 top-8 -translate-x-1/2 z-1">
+          K-Shop
+        </h1>
         <Image
           src="/images/authBg.jpg"
           alt="auth screen bg"
@@ -24,4 +23,4 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default AuthLayout
+export default AuthLayout;
