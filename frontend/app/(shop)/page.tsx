@@ -1,9 +1,11 @@
-import ProductsSlider from "@/components/Home/ProductsSlider";
+import ProductsSlider from "@/components/home/ProductsSlider";
+import Categories from "@/components/home/Categories";
 
 export default function Home() {
   return (
-    <div className="">
+    <div>
       <ProductsSlider />
+      <Categories />
     </div>
   );
 }

@@ -2,10 +2,10 @@
 import { useState, useRef } from "react";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay  } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import Image from "next/image";
-import Button from "../Button/Button";
+import Button from "../buttons/Button";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

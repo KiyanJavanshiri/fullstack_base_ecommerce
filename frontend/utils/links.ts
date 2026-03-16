@@ -11,6 +11,7 @@ type TPath = {
 };
 
 type TSocialLinks = Omit<TPath, "title"> & { Icon: IconType };
+type TCategoryLinks =  Omit<TPath, "path"> & { img: string; category: string; subCategory: string };
 
 export const PATHS: TPath[] = [
   {
@@ -45,3 +46,42 @@ export const SOCIAL_LINKS: TSocialLinks[] = [
     path: "/",
   },
 ];
+
+export const CATEGORIES_LINKS: TCategoryLinks[] = [
+  {
+    title: "hoodies",
+    category: "clothing",
+    subCategory: "hoodie",
+    img: "/images/clothes.jpg"
+  },
+  {
+    title: "jackets",
+    category: "clothing",
+    subCategory: "jacket",
+    img: "/images/clothes.jpg"
+  },
+  {
+    title: "shorts",
+    category: "clothing",
+    subCategory: "shorts",
+    img: "/images/clothes.jpg"
+  },
+  {
+    title: "sneakers",
+    category: "shoes",
+    subCategory: "sneakers",
+    img: "/images/clothes.jpg"
+  },
+  {
+    title: "hoodies",
+    category: "clothing",
+    subCategory: "hoodie",
+    img: "/images/clothes.jpg"
+  },
+  {
+    title: "hoodies",
+    category: "clothing",
+    subCategory: "hoodie",
+    img: "/images/clothes.jpg"
+  },
+]

@@ -4,8 +4,8 @@ import z from "zod";
 import { authSchema, type TAuthFormState } from "@/utils/validationSchemas";
 import { actionLogin } from "@/utils/actions";
 import Link from "next/link";
-import FormInput from "@/components/Input/FormInput";
-import Button from "@/components/Button/Button";
+import FormInput from "@/components/inputs/FormInput";
+import Button from "@/components/buttons/Button";
 
 type TSignInFormFields = Pick<z.infer<typeof authSchema>, "email" | "password">;
 export type TSignInFormState = TAuthFormState<TSignInFormFields> | undefined;

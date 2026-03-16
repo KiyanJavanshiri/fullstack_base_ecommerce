@@ -4,10 +4,10 @@ import z from "zod";
 import { authSchema, type TAuthFormState } from "@/utils/validationSchemas";
 import { actionRegister } from "@/utils/actions";
 import Link from "next/link";
-import FormInput from "@/components/Input/FormInput";
-import Button from "@/components/Button/Button";
+import FormInput from "@/components/inputs/FormInput";
+import Button from "@/components/buttons/Button";
 
-type TSignUpFormFields = z.infer<typeof authSchema>
+type TSignUpFormFields = z.infer<typeof authSchema>;
 export type TSignUpFormState = TAuthFormState<TSignUpFormFields> | undefined;
 
 const SignUpPage = () => {
