@@ -8,8 +8,8 @@ export default function Home() {
       <ProductsSlider />
       <Categories />
       <ProductShowSection
-        title={"Hoodies"}
-        path={{ category: "clothing", subCategory: "hoodie" }}
+        title={"T-shirts"}
+        path={{ category: "clothing", subCategory: "t-shirts" }}
       />
     </div>
   );

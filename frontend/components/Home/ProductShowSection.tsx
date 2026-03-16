@@ -10,9 +10,9 @@ const ProductShowSection = ({
   path: { category: string; subCategory: string };
 }) => {
   return (
-    <section>
+    <section className="mt-10 md:mt-12">
       <div className="flex justify-between items-center">
-        <h2>{title}</h2>
+        <h2 className="text-[40px] font-medium leading-11 text-black">{title}</h2>
         <Link
           className="flex justify-center items-center gap-x-2 underline"
           href={`/products?category=${path.category}&subCategory=${path.subCategory}`}
