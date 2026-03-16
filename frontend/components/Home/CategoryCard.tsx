@@ -29,7 +29,7 @@ const CategoryCard = ({
             className="object-cover rounded-full"
           />
         </div>
-        <p className="text-sm leading-5.5 font-medium text-black">{title}</p>
+        <p className="text-sm leading-5.5 font-medium text-black capitalize">{title}</p>
       </Link>
     </div>
   );
