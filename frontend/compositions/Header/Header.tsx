@@ -13,7 +13,7 @@ const Header = () => {
           <div className="flex justify-start items-center gap-x-1">
             <BurgerMenu />
             <h1 className="text-base md:text-2xl leading-6 text-black font-medium">
-              K-Shop
+              <Link href={"/"}>K-Shop</Link>
             </h1>
           </div>
           <NavBar />

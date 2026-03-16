@@ -23,8 +23,8 @@ export const PATHS: TPath[] = [
     path: "/shop",
   },
   {
-    title: "Product",
-    path: "/product",
+    title: "Products",
+    path: "/products",
   },
   {
     title: "Contact Us",
