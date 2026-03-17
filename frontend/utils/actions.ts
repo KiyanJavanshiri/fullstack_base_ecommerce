@@ -1,17 +1,18 @@
 "use server";
 import z from "zod";
-import { API_URL } from "@/config/api";
 import type { TSignInFormState } from "@/app/(auth)/sign-in/page";
 import { TSignUpFormState } from "@/app/(auth)/sign-up/page";
 import { authSchema } from "./validationSchemas";
 import { redirect } from "next/navigation";
 import { queryParamsBuilder } from "./queryParamsBuilder";
+import { sendRequest } from "./sendRequest";
+import { TApiError, TProduct, TSuccessResponseAPI } from "./types";
 
 export type TSearchParams = Partial<{
   category: string;
   subCategory: string;
   brand: string;
-}>
+}>;
 
 export const actionLogin = async (
   prevState: TSignInFormState,
@@ -66,5 +67,12 @@ export const actionRegister = async (
 export const actionGetProducts = async (params?: TSearchParams) => {
   const query = !params ? "" : queryParamsBuilder(params);
   console.log("query: ", query);
-  const response = await fetch(`${API_URL}/api/products${query}`);
-}
+  // const products = await sendRequest<TBaseResponseAPI & { data: TProduct }>(
+  //   `/api/products${query}`,
+  // );
+  const response = await sendRequest<{ data: TProduct }>(
+    `/api/products${query}`,
+  );
+
+  return response;
+};

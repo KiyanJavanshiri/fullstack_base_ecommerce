@@ -8,16 +8,9 @@ const ProductShowContainer = async ({
   category: string;
   subCategory: string;
 }) => {
-//   const response = await fetch(
-//     `${API_URL}/api/products?category=${category}&subCategory=${subCategory}`,
-//   );
-
-//   const products = await response.json();
-
-//   console.log("products: ", products);
-    await actionGetProducts({category, subCategory});
-
+  const products = await actionGetProducts({ category, subCategory });
+  
   return <div className=""></div>;
 };
 
-export default ProductShowContainer
+export default ProductShowContainer;
