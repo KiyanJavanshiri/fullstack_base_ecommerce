@@ -70,9 +70,9 @@ export const actionGetProducts = async (params?: TSearchParams) => {
   // const products = await sendRequest<TBaseResponseAPI & { data: TProduct }>(
   //   `/api/products${query}`,
   // );
-  const response = await sendRequest<{ data: TProduct }>(
+  const response = await sendRequest<{ data: TProduct[] }>(
     `/api/products${query}`,
   );
 
-  return response;
+  return response?.data;
 };
