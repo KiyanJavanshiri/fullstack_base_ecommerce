@@ -12,6 +12,7 @@ export type TSearchParams = Partial<{
   category: string;
   subCategory: string;
   brand: string;
+  limit: number;
 }>;
 
 export const actionLogin = async (
@@ -67,9 +68,6 @@ export const actionRegister = async (
 export const actionGetProducts = async (params?: TSearchParams) => {
   const query = !params ? "" : queryParamsBuilder(params);
   console.log("query: ", query);
-  // const products = await sendRequest<TBaseResponseAPI & { data: TProduct }>(
-  //   `/api/products${query}`,
-  // );
   const response = await sendRequest<{ data: TProduct[] }>(
     `/api/products${query}`,
   );
