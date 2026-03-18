@@ -18,7 +18,7 @@ const CategoryCard = ({
     <div>
       <Link
         className="flex flex-col items-center gap-y-3"
-        href={`/products?category=${category}&subCategory=${subCategory}`}
+        href={`/shop?category=${category}&subCategory=${subCategory}`}
       >
         <div className="relative w-38 aspect-square md:w-41.75">
           <Image
