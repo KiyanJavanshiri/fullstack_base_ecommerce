@@ -6,14 +6,7 @@ import { authSchema } from "./validationSchemas";
 import { redirect } from "next/navigation";
 import { queryParamsBuilder } from "./queryParamsBuilder";
 import { sendRequest } from "./sendRequest";
-import { TApiError, TProduct, TSuccessResponseAPI } from "./types";
-
-export type TSearchParams = Partial<{
-  category: string;
-  subCategory: string;
-  brand: string;
-  limit: number;
-}>;
+import { TApiError, TProduct, TSuccessResponseAPI, TSearchParams } from "./types";
 
 export const actionLogin = async (
   prevState: TSignInFormState,

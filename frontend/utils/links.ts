@@ -1,17 +1,29 @@
 import { IconType } from "react-icons";
+import { IoGrid } from "react-icons/io5";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import {
   IoLogoInstagram,
   IoLogoFacebook,
   IoLogoTwitter,
 } from "react-icons/io5";
+import { TLayoutType } from "./types";
 
 type TPath = {
   title: string;
   path: string;
 };
 
+type TLayout = {
+  type: TLayoutType;
+  Icon: IconType;
+};
+
 type TSocialLinks = Omit<TPath, "title"> & { Icon: IconType };
-type TCategoryLinks =  Omit<TPath, "path"> & { img: string; category: string; subCategory: string };
+type TCategoryLinks = Omit<TPath, "path"> & {
+  img: string;
+  category: string;
+  subCategory: string;
+};
 
 export const PATHS: TPath[] = [
   {
@@ -52,36 +64,47 @@ export const CATEGORIES_LINKS: TCategoryLinks[] = [
     title: "hoodies",
     category: "clothing",
     subCategory: "hoodie",
-    img: "/images/clothes.jpg"
+    img: "/images/clothes.jpg",
   },
   {
     title: "jackets",
     category: "clothing",
     subCategory: "jacket",
-    img: "/images/clothes.jpg"
+    img: "/images/clothes.jpg",
   },
   {
     title: "shorts",
     category: "clothing",
     subCategory: "shorts",
-    img: "/images/clothes.jpg"
+    img: "/images/clothes.jpg",
   },
   {
     title: "sneakers",
     category: "shoes",
     subCategory: "sneakers",
-    img: "/images/clothes.jpg"
+    img: "/images/clothes.jpg",
   },
   {
     title: "hoodies",
     category: "clothing",
     subCategory: "hoodie",
-    img: "/images/clothes.jpg"
+    img: "/images/clothes.jpg",
   },
   {
     title: "hoodies",
     category: "clothing",
     subCategory: "hoodie",
-    img: "/images/clothes.jpg"
+    img: "/images/clothes.jpg",
   },
-]
+];
+
+export const LAYOUTS: TLayout[] = [
+  {
+    type: "grid",
+    Icon: IoGrid,
+  },
+  {
+    type: "multigrid",
+    Icon: BsFillGrid3X3GapFill,
+  },
+];

@@ -1,4 +1,4 @@
-import { TSearchParams } from "./actions";
+import { TSearchParams } from "./types";
 
 export const queryParamsBuilder = (params: TSearchParams) => {
     let query = "?";

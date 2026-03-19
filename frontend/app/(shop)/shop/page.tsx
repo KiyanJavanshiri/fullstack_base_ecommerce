@@ -1,17 +1,50 @@
-import BreadCrumb from "@/components/BreadCrumb";
+import { LAYOUTS } from "@/utils/links";
+import { queryParamsBuilder } from "@/utils/queryParamsBuilder";
+import { TLayoutType, TSearchParams } from "@/utils/types";
+import PageBanner from "@/components/skeletons/PageBanner";
+import Link from "next/link";
+import ProductsContainer from "@/components/shop/ProductsContainer";
 
-const ShopPage = () => {
+const ShopPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<TSearchParams & { layout?: TLayoutType }>;
+}) => {
+  const params = await searchParams;
+  const { layout: currentLayout, ...restParams } = params;
+  const filter = queryParamsBuilder(restParams);
+
+  const layout = currentLayout ?? "grid"
+
   return (
     <section>
-      <div className="bg-[url('/images/slide-1.jpg')] bg-no-repeat bg-cover py-19.5 md:py-28.75">
-        <div className="text-center flex flex-col gap-y-4 md:gap-y-6">
-          <BreadCrumb />
-          <h2 className="text-[40px] leading-11 font-medium text-black md:text-[54px] md:leading-14.5 capitalize">
-            Shop Page
-          </h2>
-          <p className="text-base leading-6.5 font-medium text-gray-900 md:text-[20px] md:leading-8">
-            Let’s design the place you always imagined.
-          </p>
+      <PageBanner
+        title="Shop Page"
+        description="Let’s design the place you always imagined."
+        bgImage="/images/slide-1.jpg"
+      />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8 md:mt-15">
+        <div className="">filter</div>
+        <div>
+          <div className="mb-16 flex justify-between items-center">
+            <h2 className="text-base leading-6.5 text-black font-semibold capitalize md:text-[20px] md:leading-8">
+              {restParams.category ? restParams.category : "All Categories"}
+            </h2>
+            <div className="flex justify-center items-center gap-x-4">
+              {LAYOUTS.map(({ type, Icon }, i) => (
+                <Link
+                  key={i}
+                  href={`/shop${filter + (filter.length <= 1 ? "" : "&")}layout=${type}`}
+                  className={`px-2.75 py-2 ${layout === type ? "bg-[#E8ECEF]" : "bg-white"} rounded-sm`}
+                >
+                  <Icon
+                    className={`w-6 h-6 ${layout === type ? "text-black" : "text-[#6C7275]"}`}
+                  />
+                </Link>
+              ))}
+            </div>
+          </div>
+          <ProductsContainer query={restParams} layout={layout}/>
         </div>
       </div>
     </section>

@@ -25,3 +25,12 @@ export type TSuccessResponseAPI<T extends object> = TBaseResponseAPI & T
 export type TApiError = TBaseResponseAPI & {
   error: Record<string, string> | string;
 };
+
+export type TSearchParams = Partial<{
+  category: string;
+  subCategory: string;
+  brand: string;
+  limit: number;
+}>;
+
+export type TLayoutType = "grid" | "multigrid"
