@@ -4,6 +4,8 @@ import { TLayoutType, TSearchParams } from "@/utils/types";
 import PageBanner from "@/components/skeletons/PageBanner";
 import Link from "next/link";
 import ProductsContainer from "@/components/shop/ProductsContainer";
+import ProductFilterButton from "@/compositions/ProductFilterButton";
+import FilterAside from "@/compositions/FilterAside";
 
 const ShopPage = async ({
   searchParams,
@@ -23,14 +25,15 @@ const ShopPage = async ({
         description="Let’s design the place you always imagined."
         bgImage="/images/slide-1.jpg"
       />
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8 md:mt-15">
-        <div className="">filter</div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-[262px_1fr] mt-8 md:mt-15">
+        <FilterAside/>
         <div>
           <div className="mb-16 flex justify-between items-center">
             <h2 className="text-base leading-6.5 text-black font-semibold capitalize md:text-[20px] md:leading-8">
               {restParams.category ? restParams.category : "All Categories"}
             </h2>
             <div className="flex justify-center items-center gap-x-4">
+              <ProductFilterButton/>
               {LAYOUTS.map(({ type, Icon }, i) => (
                 <Link
                   key={i}
