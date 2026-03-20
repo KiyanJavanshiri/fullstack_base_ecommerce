@@ -3,13 +3,14 @@ import Link from "next/link";
 import { IoMdArrowForward } from "react-icons/io";
 import ProductShowContainer from "./ProductShowContainer";
 import ProductsListSkeleton from "../skeletons/ProductsListSkeleton";
+import { CategoryMap } from "@/utils/types";
 
 const ProductShowSection = ({
   title,
   path,
 }: {
   title: string;
-  path: { category: string; subCategory: string };
+  path: { category: keyof CategoryMap; subCategory: CategoryMap[keyof CategoryMap][] };
 }) => {
   return (
     <section className="mt-10 md:mt-12">

@@ -7,7 +7,7 @@ const ProductShowContainer = async ({
   subCategory,
 }: {
   category: keyof CategoryMap;
-  subCategory: CategoryMap[keyof CategoryMap];
+  subCategory: CategoryMap[keyof CategoryMap][];
 }) => {
   const products = await actionGetProducts({ category, subCategory, limit: 4 });
 

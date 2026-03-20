@@ -9,7 +9,7 @@ export default function Home() {
       <Categories />
       <ProductShowSection
         title={"T-shirts"}
-        path={{ category: "clothing", subCategory: "t-shirts" }}
+        path={{ category: "clothing", subCategory: ["t-shirts"] }}
       />
     </div>
   );
