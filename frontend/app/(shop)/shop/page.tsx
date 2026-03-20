@@ -5,7 +5,7 @@ import PageBanner from "@/components/skeletons/PageBanner";
 import Link from "next/link";
 import ProductsContainer from "@/components/shop/ProductsContainer";
 import ProductFilterButton from "@/compositions/ProductFilterButton";
-import FilterAside from "@/compositions/FilterAside";
+import FilterAside from "@/compositions/FilterAside/FilterAside";
 
 const ShopPage = async ({
   searchParams,
@@ -14,9 +14,13 @@ const ShopPage = async ({
 }) => {
   const params = await searchParams;
   const { layout: currentLayout, ...restParams } = params;
-  const filter = queryParamsBuilder(restParams);
+  let filter = "";
+  Object.entries(queryParamsBuilder(restParams)).forEach((q) => {
+    const [field, value] = q;
+    filter += `${field}=${value} `;
+  });
 
-  const layout = currentLayout ?? "grid"
+  const layout = currentLayout ?? "grid";
 
   return (
     <section>
@@ -26,18 +30,18 @@ const ShopPage = async ({
         bgImage="/images/slide-1.jpg"
       />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[262px_1fr] mt-8 md:mt-15">
-        <FilterAside/>
+        <FilterAside />
         <div>
           <div className="mb-16 flex justify-between items-center">
             <h2 className="text-base leading-6.5 text-black font-semibold capitalize md:text-[20px] md:leading-8">
               {restParams.category ? restParams.category : "All Categories"}
             </h2>
             <div className="flex justify-center items-center gap-x-4">
-              <ProductFilterButton/>
+              <ProductFilterButton />
               {LAYOUTS.map(({ type, Icon }, i) => (
                 <Link
                   key={i}
-                  href={`/shop${filter + (filter.length <= 1 ? "" : "&")}layout=${type}`}
+                  href={`/shop?${filter.trim().split(" ").join("&") + (filter.length <= 1 ? "" : "&")}layout=${type}`}
                   className={`px-2.75 py-2 ${layout === type ? "bg-[#E8ECEF]" : "bg-white"} rounded-sm`}
                 >
                   <Icon
@@ -47,7 +51,7 @@ const ShopPage = async ({
               ))}
             </div>
           </div>
-          <ProductsContainer query={restParams} layout={layout}/>
+          <ProductsContainer query={restParams} layout={layout} />
         </div>
       </div>
     </section>

@@ -1,11 +1,15 @@
-import { TSearchParams } from "./types";
+import { TFilterFields, TSearchParams } from "./types";
 
-export const queryParamsBuilder = (params: TSearchParams) => {
-    let query = "?";
-    
-    Object.entries(params).forEach(([key, value]) => {
-        query += `${key}=${value} `;
-    })
+export const queryParamsBuilder = (
+  params: TSearchParams | TFilterFields,
+) => {
+  const queryObj: Record<string,string | number> = {};
 
-    return query.trim().replaceAll(" ", "&");
-}
+  Object.entries(params).forEach(([key, value]) => {
+    const val =
+      typeof value === "object" && value !== null ? value.join(",") : value;
+    queryObj[key] = val;
+  });
+
+  return queryObj
+};

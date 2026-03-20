@@ -59,10 +59,14 @@ export const actionRegister = async (
 };
 
 export const actionGetProducts = async (params?: TSearchParams) => {
-  const query = !params ? "" : queryParamsBuilder(params);
-  console.log("query: ", query);
+  const queryObj = !params ? {} : queryParamsBuilder(params);
+  const searchParams = new URLSearchParams();
+  Object.entries(queryObj).forEach((q) => {
+    const [field, value] = q;
+    searchParams.set(field, String(value))
+  }) 
   const response = await sendRequest<{ data: TProduct[] }>(
-    `/api/products${query}`,
+    `/api/products?${searchParams.toString()}`,
   );
 
   return response?.data;

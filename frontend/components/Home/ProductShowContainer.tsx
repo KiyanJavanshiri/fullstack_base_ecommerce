@@ -1,12 +1,13 @@
 import { actionGetProducts } from "@/utils/actions";
 import ProductCard from "../product/ProductCard";
+import { CategoryMap } from "@/utils/types";
 
 const ProductShowContainer = async ({
   category,
   subCategory,
 }: {
-  category: string;
-  subCategory: string;
+  category: keyof CategoryMap;
+  subCategory: CategoryMap[keyof CategoryMap];
 }) => {
   const products = await actionGetProducts({ category, subCategory, limit: 4 });
 

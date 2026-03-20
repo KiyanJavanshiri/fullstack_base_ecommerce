@@ -6,24 +6,7 @@ import {
   IoLogoFacebook,
   IoLogoTwitter,
 } from "react-icons/io5";
-import { TLayoutType } from "./types";
-
-type TPath = {
-  title: string;
-  path: string;
-};
-
-type TLayout = {
-  type: TLayoutType;
-  Icon: IconType;
-};
-
-type TSocialLinks = Omit<TPath, "title"> & { Icon: IconType };
-type TCategoryLinks = Omit<TPath, "path"> & {
-  img: string;
-  category: string;
-  subCategory: string;
-};
+import { CategoryMap, TCategoryLinks, TLayout, TPath, TSocialLinks } from "./types";
 
 export const PATHS: TPath[] = [
   {
@@ -59,7 +42,7 @@ export const SOCIAL_LINKS: TSocialLinks[] = [
   },
 ];
 
-export const CATEGORIES_LINKS: TCategoryLinks[] = [
+export const CATEGORIES_LINKS: TCategoryLinks<keyof CategoryMap>[] = [
   {
     title: "hoodies",
     category: "clothing",
@@ -69,7 +52,7 @@ export const CATEGORIES_LINKS: TCategoryLinks[] = [
   {
     title: "jackets",
     category: "clothing",
-    subCategory: "jacket",
+    subCategory: "jackets",
     img: "/images/clothes.jpg",
   },
   {
