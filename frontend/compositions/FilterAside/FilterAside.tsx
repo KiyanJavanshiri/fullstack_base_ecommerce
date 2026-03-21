@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useShopFilters } from "@/hooks/useShopFilters";
 import {
   TFilterFields,
   CategoryMap,
@@ -14,57 +13,10 @@ import { MdFilterList } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import FilterSection from "./components/FilterSection";
 import Button from "@/components/buttons/Button";
-import { queryParamsBuilder } from "@/utils/queryParamsBuilder";
 
 const FilterAside = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [category, setCategory] = useState<keyof CategoryMap>("clothing");
-  const [filter, setFilter] = useState<TFilterFields>({});
-
-  const handleSelectCategory = (category: keyof CategoryMap) => {
-    setCategory(category);
-    setFilter((prev) => ({
-      ...prev,
-      sizes: [],
-      subCategory: [],
-    }));
-  };
-
-  const handleSelectFilter = (field: keyof TFilterFields, value: string) => {
-    setFilter((prev) => {
-      const current = prev[field] ?? [];
-
-      if (current.includes(value as never)) {
-        return {
-          ...prev,
-          [field]: current.filter((v) => v !== value),
-        };
-      }
-      return {
-        ...prev,
-        [field]: [...current, value],
-      };
-    });
-  };
-
-  useEffect(() => {
-    const queryObj = queryParamsBuilder({ category, ...filter });
-    const params = new URLSearchParams(searchParams);
-    Object.entries(queryObj).forEach((q) => {
-      const [field, value] = q;
-      if (value) {
-      params.set(field, String(value));
-    } else {
-      params.delete(field);
-    }
-    });
-    router.push(`/shop?${params.toString()}`);
-  }, [filter, category]);
-
-  console.log("filter: ", filter);
-  console.log("category: ", category);
-
+  const { category, filter, handleSelectCategory, handleSelectFilter } =
+    useShopFilters();
   return (
     <aside className="hidden md:block max-h-145.5 overflow-y-auto">
       <h3 className="gap-x-2 flex justify-start">

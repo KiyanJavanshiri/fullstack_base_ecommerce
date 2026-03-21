@@ -1,7 +1,7 @@
 import { LAYOUTS } from "@/utils/links";
 import { queryParamsBuilder } from "@/utils/queryParamsBuilder";
 import { TLayoutType, TSearchParams } from "@/utils/types";
-import PageBanner from "@/components/skeletons/PageBanner";
+import PageBanner from "@/components/PageBanner";
 import Link from "next/link";
 import ProductsContainer from "@/components/shop/ProductsContainer";
 import ProductFilterButton from "@/compositions/ProductFilterButton";
