@@ -92,7 +92,7 @@ export type TCategoryLinks<T extends keyof CategoryMap> = Omit<
 };
 
 export type TFilterFields = Partial<{
-  subCategory?: CategoryMap[keyof CategoryMap][];
-  sizes?: ProductSizes[keyof CategoryMap][];
-  brand?: (typeof BRANDS)[number][];
+  subCategory: CategoryMap[keyof CategoryMap][];
+  sizes: ProductSizes[keyof CategoryMap][];
+  brand: (typeof BRANDS)[number][];
 }>;
