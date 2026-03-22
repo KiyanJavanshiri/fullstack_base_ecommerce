@@ -1,10 +1,7 @@
 import { TBaseResponseAPI, TApiError, TSuccessResponseAPI } from "./types";
 import { API_URL } from "@/config/api";
 
-export const sendRequest = async <
-  TOutput extends object,
-  TInput = undefined,
->(
+export const sendRequest = async <TOutput extends object, TInput = undefined>(
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
   body?: TInput,
@@ -13,9 +10,16 @@ export const sendRequest = async <
   try {
     const response = await fetch(`${API_URL}${url}`, {
       method,
-      headers: headers ? headers : undefined,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers
+      },
       body: body ? JSON.stringify(body) : undefined,
     });
+
+    if (!response.ok) {
+      throw new Error("something went wrong");
+    }
 
     const data = (await response.json()) as TSuccessResponseAPI<TOutput>;
 

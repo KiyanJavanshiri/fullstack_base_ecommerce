@@ -11,7 +11,9 @@ import {
   TProduct,
   TSuccessResponseAPI,
   TSearchParams,
+  TUser,
 } from "./types";
+import { cookies } from "next/headers";
 
 export const actionLogin = async (
   prevState: TSignInFormState,
@@ -35,6 +37,29 @@ export const actionLogin = async (
     };
   }
 
+  const data = validationResult.data;
+
+  const response = await sendRequest<{ data: { token: string } }, typeof data>(
+    "/api/users/login",
+    "POST",
+    data,
+  );
+
+  if (!response) {
+    return {
+      ...prevState,
+      success: false,
+      message: "something went wrong on login",
+      fields: {
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+      },
+    };
+  }
+
+  const cookie = await cookies();
+  cookie.set("token", response.data.token);
+
   redirect("/");
 };
 
@@ -51,6 +76,28 @@ export const actionRegister = async (
       message: "validation error",
       success: false,
       errors: z.flattenError(validationResult.error).fieldErrors,
+      fields: {
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+        name: formData.get("name") as string,
+        username: formData.get("username") as string,
+      },
+    };
+  }
+
+  const data = validationResult.data;
+
+  const response = await sendRequest<{ data: TUser }, typeof data>(
+    "/api/users/register",
+    "POST",
+    data,
+  );
+
+  if (!response) {
+    return {
+      ...prevState,
+      success: false,
+      message: "something went wrong on login",
       fields: {
         email: formData.get("email") as string,
         password: formData.get("password") as string,

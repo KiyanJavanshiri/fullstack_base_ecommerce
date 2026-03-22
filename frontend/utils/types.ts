@@ -17,6 +17,12 @@ export type TProduct = {
   updatedAt: string;
 };
 
+export type TUser = {
+  name: string;
+  username: string;
+  email: string;
+}
+
 export type TBaseResponseAPI = {
   success: boolean;
   status: number;
