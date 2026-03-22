@@ -6,6 +6,8 @@ import Link from "next/link";
 import ProductsContainer from "@/components/shop/ProductsContainer";
 import ProductFilterButton from "@/compositions/ProductFilterButton";
 import FilterAside from "@/compositions/FilterAside/FilterAside";
+import { Suspense } from "react";
+import ProductsListSkeleton from "@/components/skeletons/ProductsListSkeleton";
 
 const ShopPage = async ({
   searchParams,
@@ -32,7 +34,7 @@ const ShopPage = async ({
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[262px_1fr] mt-8 md:mt-15">
         <FilterAside />
         <div>
-          <div className="mb-16 flex justify-between items-center">
+          <div className="mb-10 md:mb-16 flex justify-between items-center">
             <h2 className="text-base leading-6.5 text-black font-semibold capitalize md:text-[20px] md:leading-8">
               {restParams.category ? restParams.category : "All Categories"}
             </h2>
@@ -51,7 +53,11 @@ const ShopPage = async ({
               ))}
             </div>
           </div>
-          <ProductsContainer query={restParams} layout={layout} />
+          <Suspense
+            fallback={<ProductsListSkeleton length={8} layout={layout} />}
+          >
+            <ProductsContainer query={restParams} layout={layout} />
+          </Suspense>
         </div>
       </div>
     </section>

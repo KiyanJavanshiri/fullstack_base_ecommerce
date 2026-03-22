@@ -6,7 +6,12 @@ import { authSchema } from "./validationSchemas";
 import { redirect } from "next/navigation";
 import { queryParamsBuilder } from "./queryParamsBuilder";
 import { sendRequest } from "./sendRequest";
-import { TApiError, TProduct, TSuccessResponseAPI, TSearchParams } from "./types";
+import {
+  TApiError,
+  TProduct,
+  TSuccessResponseAPI,
+  TSearchParams,
+} from "./types";
 
 export const actionLogin = async (
   prevState: TSignInFormState,
@@ -63,11 +68,16 @@ export const actionGetProducts = async (params?: TSearchParams) => {
   const searchParams = new URLSearchParams();
   Object.entries(queryObj).forEach((q) => {
     const [field, value] = q;
-    searchParams.set(field, String(value))
-  }) 
+    searchParams.set(field, String(value));
+  });
   const response = await sendRequest<{ data: TProduct[] }>(
     `/api/products?${searchParams.toString()}`,
   );
 
+  return response?.data;
+};
+
+export const actionGetProductById = async (id: string) => {
+  const response = await sendRequest<{ data: TProduct }>(`/api/products/${id}`);
   return response?.data;
 };

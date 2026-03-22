@@ -24,7 +24,7 @@ const CheckBoxFilter = <T extends keyof TFilterFields>(
         {options?.map((opt, i) => (
           <li key={i}>
             <label
-              className="relative group flex justify-start items-center gap-x-3"
+              className="relative group flex justify-start items-center gap-x-3 cursor-pointer"
               htmlFor={`opt-${opt}`}
             >
               <input
