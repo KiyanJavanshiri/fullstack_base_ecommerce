@@ -7,9 +7,7 @@ import { redirect } from "next/navigation";
 import { queryParamsBuilder } from "./queryParamsBuilder";
 import { sendRequest } from "./sendRequest";
 import {
-  TApiError,
   TProduct,
-  TSuccessResponseAPI,
   TSearchParams,
   TUser,
 } from "./types";
