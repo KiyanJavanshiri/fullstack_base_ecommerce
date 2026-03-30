@@ -8,6 +8,8 @@ export const getAllProducts = asyncHandler(
     const { page = 1, limit = 10, projection, sort } = req.query;
     const filter = buildProductFilter(req.query);
 
+    const totalProducts = await Product.countDocuments(filter);
+
     let result = Product.find(filter);
 
     if (sort) {
@@ -24,14 +26,14 @@ export const getAllProducts = asyncHandler(
     }
 
     const products = await result;
-    const totalPages = Math.ceil(products.length / +limit);
-    
+    const totalPages = Math.ceil(totalProducts / +limit);
+
     resp.status(200).json({
       success: true,
       status: 200,
       data: products,
       count: products.length,
-      page: pageNumber,
+      page: pageNumber + 1,
       totalPages,
     });
   },
