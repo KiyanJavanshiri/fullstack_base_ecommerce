@@ -6,6 +6,8 @@ type TButtonProps = {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  name?: string;
+  value?: string;
 };
 
 const Button = (props: TButtonProps) => {
@@ -15,6 +17,8 @@ const Button = (props: TButtonProps) => {
     disabled = false,
     className = "",
     onClick,
+    name,
+    value,
   } = props;
 
   return (
@@ -23,6 +27,8 @@ const Button = (props: TButtonProps) => {
       onClick={onClick}
       disabled={disabled}
       type={type}
+      name={name}
+      value={value}
     >
       {children}
     </button>

@@ -125,3 +125,37 @@ export const actionGetProductById = async (id: string) => {
   const response = await sendRequest<{ data: TProduct }>(`/api/products/${id}`);
   return response?.data;
 };
+
+export const handleProductAction = async (
+  state: undefined,
+  formData: FormData,
+) => {
+  const action = formData.get("action") as string;
+  const size = formData.get("size") as string;
+  const quantity = formData.get("quantity") as string;
+  const productId = formData.get("size") as string;
+
+  const cookie = await cookies();
+  const token = cookie.get("token");
+
+  if (!token) {
+    return undefined;
+  }
+
+  if (action === "addToCart") {
+    if (!size) {
+      return undefined;
+    }
+
+    const response = await sendRequest(
+      "/api/users",
+      "POST",
+      { selectedSize: size, productId, quantity },
+      {
+        authorization: `Bearer ${token}`,
+      },
+    );
+  } else {
+    //
+  }
+};

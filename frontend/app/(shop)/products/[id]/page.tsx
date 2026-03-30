@@ -3,6 +3,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import Image from "next/image";
 import RatingStars from "@/components/product/RatingStars";
 import Button from "@/components/buttons/Button";
+import ProductAddForm from "@/components/product/ProductAddForm";
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -13,6 +14,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const {
+    _id,
     images,
     rating,
     title,
@@ -53,34 +55,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               }).format(price)}
             </p>
           </div>
-          <div className="mt-6">
-            <h3 className="text-base leading-6.5 text-[#6C7275] font-medium mb-2">
-              Sizes
-            </h3>
-            <ul className="flex justify-start items-center gap-4">
-              {sizes.map((size, i) => (
-                <li
-                  className="px-4 py-2 cursor-pointer rounded-sm border border-gray-300 text-base leading-6.5 font-medium text-black"
-                  key={i}
-                >
-                  {size}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="mt-4 flex justify-between items-center">
-            <p className="text-base leading-6.5 font-medium text-green-500">
-              In Stock:
-            </p>
-            <p className="text-base leading-6.5 font-medium text-black">
-              {stock}
-            </p>
-          </div>
-          <div className="mt-4 pb-6 border-b border-gray-200">
-            <Button className="w-full py-1 bg-black text-white text-sm leading-6 font-normal rounded-sm md:py-2.5 md:rounded-lg md:text-lg md:leading-8">
-              Add to Cart
-            </Button>
-          </div>
+          <ProductAddForm sizes={sizes} stock={stock} productId={_id} />
           <div className="mt-6 flex flex-col gap-y-2">
             <div className="flex justify-start items-center gap-x-14">
               <p className="text-[12px] leading-5 font-normal uppercase text-[#6C7275]">
