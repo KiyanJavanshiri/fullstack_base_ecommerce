@@ -14,7 +14,9 @@ export const getAllProducts = asyncHandler(
       result.sort(sort as string);
     }
 
-    result = result.skip((+page - 1) * +limit).limit(+limit);
+    const pageNumber = (+page - 1) * +limit;
+
+    result = result.skip(pageNumber).limit(+limit);
 
     if (projection) {
       const filedList = projection.toString().replaceAll(",", " ");
@@ -22,11 +24,15 @@ export const getAllProducts = asyncHandler(
     }
 
     const products = await result;
+    const totalPages = Math.ceil(products.length / +limit);
+    
     resp.status(200).json({
       success: true,
       status: 200,
       data: products,
-      count: products.length
+      count: products.length,
+      page: pageNumber,
+      totalPages,
     });
   },
 );
