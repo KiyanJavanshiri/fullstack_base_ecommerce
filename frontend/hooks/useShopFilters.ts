@@ -14,6 +14,8 @@ export const useShopFilters = () => {
     subCategory: searchParams
       .get("subCategory")
       ?.split(",") as TFilterFields["subCategory"],
+    brand: searchParams.get("brand")?.split(",") as TFilterFields["brand"],
+    sizes: searchParams.get("sizes")?.split(",") as TFilterFields["sizes"],
   });
 
   const handleSelectCategory = (category: keyof CategoryMap) => {
@@ -53,6 +55,7 @@ export const useShopFilters = () => {
         params.delete(field);
       }
     });
+    params.set("page", "1");
     router.push(`/shop?${params.toString()}`, { scroll: false });
   }, 500);
 

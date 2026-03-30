@@ -6,11 +6,7 @@ import { authSchema } from "./validationSchemas";
 import { redirect } from "next/navigation";
 import { queryParamsBuilder } from "./queryParamsBuilder";
 import { sendRequest } from "./sendRequest";
-import {
-  TProduct,
-  TSearchParams,
-  TUser,
-} from "./types";
+import { TProduct, TSearchParams, TUser } from "./types";
 import { cookies } from "next/headers";
 
 export const actionLogin = async (
@@ -115,11 +111,14 @@ export const actionGetProducts = async (params?: TSearchParams) => {
     const [field, value] = q;
     searchParams.set(field, String(value));
   });
-  const response = await sendRequest<{ data: TProduct[] }>(
-    `/api/products?${searchParams.toString()}`,
-  );
+  const response = await sendRequest<{
+    data: TProduct[];
+    count: number;
+    page: number;
+    totalPages: number;
+  }>(`/api/products?${searchParams.toString()}`);
 
-  return response?.data;
+  return response;
 };
 
 export const actionGetProductById = async (id: string) => {

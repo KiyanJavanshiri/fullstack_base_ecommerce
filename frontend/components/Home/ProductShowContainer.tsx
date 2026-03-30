@@ -9,10 +9,16 @@ const ProductShowContainer = async ({
   category: keyof CategoryMap;
   subCategory: CategoryMap[keyof CategoryMap][];
 }) => {
-  const products = await actionGetProducts({ category, subCategory, limit: 4 });
+  const response = await actionGetProducts({ category, subCategory, limit: 4 });
 
-  if (!products || products.length === 0) {
-    return <p>No any products here</p>;
+  if (!response) {
+    return <p>Something went wrong</p>;
+  }
+
+  const {data: products} = response;
+
+  if(products.length === 0) {
+    return <p>There is no any products</p>
   }
 
   return (
