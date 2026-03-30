@@ -30,6 +30,26 @@ const userSchema = new Schema(
       required: [true, "this field is required"],
       select: false,
     },
+    cart: [
+      {
+        productId: {
+          type: mongoose.Types.ObjectId,
+          ref: "Product",
+        },
+        selectedSize: String,
+        quantity: {
+          type: Number,
+          default: 1,
+          min: [1, "too small quantity value"],
+        },
+      },
+    ],
+    favorites: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   { timestamps: true },
 );

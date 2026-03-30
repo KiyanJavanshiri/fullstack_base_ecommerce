@@ -25,7 +25,9 @@ export const registerUser = asyncHandler(async (req, resp) => {
 });
 
 export const loginUser = asyncHandler(async (req, resp) => {
-  const user = await User.findOne({ email: req.body.email }).select({password: true});
+  const user = await User.findOne({ email: req.body.email }).select({
+    password: true,
+  });
 
   if (!user) {
     resp.status(404).json({
@@ -58,5 +60,45 @@ export const loginUser = asyncHandler(async (req, resp) => {
     data: {
       token,
     },
+  });
+});
+
+export const getUsersCart = asyncHandler(async (req, resp) => {
+  const userId = resp.locals.userId as string;
+
+  const products = await User.findById(userId)
+    .populate("cart.productId")
+    .select("cart");
+
+  resp.status(200).json({
+    success: true,
+    status: 200,
+    data: products,
+  });
+});
+
+export const addProductToCart = asyncHandler(async (req, resp) => {
+  const userId = resp.locals.userId as string;
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      $addToSet: { cart: req.body },
+    },
+    { returnDocument: "after" },
+  );
+
+  if (!updatedUser) {
+    resp.status(404).json({
+      success: false,
+      status: 404,
+      message: `user with id ${userId} was not found`,
+    });
+    return;
+  }
+
+  resp.status(201).json({
+    success: true,
+    status: 201,
+    data: updatedUser,
   });
 });
