@@ -10,6 +10,17 @@ import { TProduct, TSearchParams, TUser } from "./types";
 import { AddProductFormState } from "@/components/product/ProductAddForm";
 import { cookies } from "next/headers";
 
+export const actionGetSession = async () => {
+  const cookie = await cookies();
+  return cookie.get("token") as string | undefined;
+};
+
+export const actionLogout = async () => {
+  const cookie = await cookies();
+  cookie.delete("token");
+  redirect("/");
+};
+
 export const actionLogin = async (
   prevState: TSignInFormState,
   formData: FormData,

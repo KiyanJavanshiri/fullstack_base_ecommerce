@@ -4,6 +4,7 @@ import Container from "@/layout/Container";
 import NavBar from "./components/NavBar";
 import BurgerMenu from "./components/BurgerMenu";
 import Link from "next/link";
+import AuthButtons from "./components/AuthButtons";
 
 const Header = () => {
   return (
@@ -24,6 +25,7 @@ const Header = () => {
             <Link href="/cart">
               <IoBagOutline className="w-6 h-6" />
             </Link>
+            <AuthButtons/>
           </div>
         </div>
       </Container>
