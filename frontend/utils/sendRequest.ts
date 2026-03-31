@@ -8,6 +8,8 @@ export const sendRequest = async <TOutput extends object, TInput = undefined>(
   headers?: Record<string, string>,
 ): Promise<TSuccessResponseAPI<TOutput> | undefined> => {
   try {
+    console.log("header: ", {...headers})
+    console.log("body: ", body)
     const response = await fetch(`${API_URL}${url}`, {
       method,
       headers: {

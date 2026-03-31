@@ -1,8 +1,6 @@
 import { actionGetProductById } from "@/utils/actions";
-import BreadCrumb from "@/components/BreadCrumb";
 import Image from "next/image";
 import RatingStars from "@/components/product/RatingStars";
-import Button from "@/components/buttons/Button";
 import ProductAddForm from "@/components/product/ProductAddForm";
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {

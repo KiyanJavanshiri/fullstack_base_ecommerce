@@ -1,5 +1,6 @@
 "use client";
 import { useState, useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { handleProductAction } from "@/utils/actions";
 import Button from "../buttons/Button";
 import { FaRegHeart } from "react-icons/fa";
@@ -20,6 +21,7 @@ export type AddProductFormState =
   | undefined;
 
 const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [message, setMessage] = useState("");
   const [state, action, isPending] = useActionState(
@@ -46,6 +48,10 @@ const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
       setTimeout(() => {
         setMessage("");
       }, 3000);
+    }
+
+    if (state?.success) {
+      router.refresh();
     }
   }, [state]);
 

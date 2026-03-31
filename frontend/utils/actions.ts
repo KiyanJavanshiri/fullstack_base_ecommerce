@@ -12,7 +12,7 @@ import { cookies } from "next/headers";
 
 export const actionGetSession = async () => {
   const cookie = await cookies();
-  return cookie.get("token") as string | undefined;
+  return cookie.get("token")?.value
 };
 
 export const actionLogout = async () => {
@@ -145,10 +145,10 @@ export const handleProductAction = async (
   const action = formData.get("action") as string;
   const size = formData.get("size") as string;
   const quantity = formData.get("quantity") as string;
-  const productId = formData.get("size") as string;
+  const productId = formData.get("productId") as string;
 
   const cookie = await cookies();
-  const token = cookie.get("token");
+  const token = cookie.get("token")?.value;
 
   if (!token) {
     return {
@@ -165,14 +165,15 @@ export const handleProductAction = async (
       };
     }
 
-    const response = await sendRequest(
-      "/api/users",
+    await sendRequest(
+      "/api/users/cart",
       "POST",
       { selectedSize: size, productId, quantity },
       {
         authorization: `Bearer ${token}`,
       },
     );
+
     return {
       success: true,
       message: "Product was added to your cart",
