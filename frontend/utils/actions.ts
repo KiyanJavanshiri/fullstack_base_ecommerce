@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { queryParamsBuilder } from "./queryParamsBuilder";
 import { sendRequest } from "./sendRequest";
 import { TProduct, TSearchParams, TUser } from "./types";
+import { AddProductFormState } from "@/components/product/ProductAddForm";
 import { cookies } from "next/headers";
 
 export const actionLogin = async (
@@ -127,7 +128,7 @@ export const actionGetProductById = async (id: string) => {
 };
 
 export const handleProductAction = async (
-  state: undefined,
+  state: AddProductFormState,
   formData: FormData,
 ) => {
   const action = formData.get("action") as string;
@@ -139,12 +140,18 @@ export const handleProductAction = async (
   const token = cookie.get("token");
 
   if (!token) {
-    return undefined;
+    return {
+      success: false,
+      message: "Please login to do this action",
+    };
   }
 
   if (action === "addToCart") {
     if (!size) {
-      return undefined;
+      return {
+        success: false,
+        message: "Select size of product",
+      };
     }
 
     const response = await sendRequest(
@@ -155,6 +162,10 @@ export const handleProductAction = async (
         authorization: `Bearer ${token}`,
       },
     );
+    return {
+      success: true,
+      message: "Product was added to your cart",
+    };
   } else {
     //
   }

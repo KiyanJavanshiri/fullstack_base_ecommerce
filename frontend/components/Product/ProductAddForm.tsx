@@ -1,9 +1,10 @@
 "use client";
-import { useState, useActionState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { handleProductAction } from "@/utils/actions";
 import Button from "../buttons/Button";
 import { FaRegHeart } from "react-icons/fa";
 import { FaMinus, FaPlus } from "react-icons/fa6";
+import InfoModal from "../InfoModal";
 
 type ProductAddFormProps = {
   productId: string;
@@ -11,8 +12,16 @@ type ProductAddFormProps = {
   stock: number;
 };
 
+export type AddProductFormState =
+  | {
+      success: boolean;
+      message: string;
+    }
+  | undefined;
+
 const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
   const [quantity, setQuantity] = useState(1);
+  const [message, setMessage] = useState("");
   const [state, action, isPending] = useActionState(
     handleProductAction,
     undefined,
@@ -30,6 +39,16 @@ const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
     });
   };
 
+  useEffect(() => {
+    if (state?.message) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMessage(state.message);
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    }
+  }, [state]);
+
   return (
     <form action={action}>
       <div className="mt-6">
@@ -38,17 +57,17 @@ const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
         </h3>
         <ul className="flex justify-start items-center gap-4">
           {sizes.map((size, i) => (
-            <li className="cursor-pointer" key={i}>
+            <li key={i}>
               <label
                 htmlFor={`size-${size}`}
-                className="relative px-4 py-2 rounded-sm border border-gray-300 text-base leading-6.5 font-medium text-black group has-[input:checked]:bg-gray-200"
+                className="cursor-pointer relative px-4 py-2 rounded-sm border border-gray-300 text-base leading-6.5 font-medium text-black group has-[input:checked]:bg-gray-200"
               >
                 <input
                   type="radio"
                   name="size"
                   id={`size-${size}`}
                   value={size}
-                  className="absolute opacity-0 inset-0"
+                  className="absolute opacity-0 w-0 h-0"
                 />
                 {size}
               </label>
@@ -85,7 +104,7 @@ const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
         <input type="hidden" name="quantity" value={quantity} />
         <input type="hidden" name="productId" value={productId} />
         <Button
-          disabled={isPending}
+          disabled={isPending || stock === 0 || stock < quantity}
           name="action"
           value="addToCart"
           type="submit"
@@ -94,6 +113,7 @@ const ProductAddForm = ({ sizes, stock, productId }: ProductAddFormProps) => {
           {isPending ? "Adding..." : "Add to Cart"}
         </Button>
       </div>
+      {message !== "" && <InfoModal message={message} />}
     </form>
   );
 };
