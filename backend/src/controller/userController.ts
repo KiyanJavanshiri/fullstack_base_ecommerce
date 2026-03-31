@@ -2,6 +2,9 @@ import { User } from "../model/User";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
+import { Product } from "../model/Product";
+import { Request, Response } from "express";
 
 export const registerUser = asyncHandler(async (req, resp) => {
   if (!req.body.password) {
@@ -77,28 +80,80 @@ export const getUsersCart = asyncHandler(async (req, resp) => {
   });
 });
 
-export const addProductToCart = asyncHandler(async (req, resp) => {
+export const addProductToCart = async (req: Request, resp: Response) => {
   const userId = resp.locals.userId as string;
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    {
-      $addToSet: { cart: req.body },
-    },
-    { returnDocument: "after" },
-  );
+  const { productId, quantity, selectedSize } = req.body;
 
-  if (!updatedUser) {
-    resp.status(404).json({
-      success: false,
-      status: 404,
-      message: `user with id ${userId} was not found`,
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const product = await Product.findOneAndUpdate(
+      { _id: productId, stock: { $gte: quantity } },
+      { $inc: { stock: -quantity } },
+      { returnDocument: "after", session },
+    );
+
+    if (!product) {
+      await session.abortTransaction();
+      resp.status(400).json({
+        success: false,
+        status: 400,
+        message: "Not enough stock or product not found",
+      });
+      return;
+    }
+
+    let updatedUser = await User.findOneAndUpdate(
+      {
+        _id: userId,
+        "cart.productId": productId,
+      },
+      {
+        $inc: { "cart.$.quantity": quantity },
+      },
+      { returnDocument: "after", session },
+    );
+
+    if (!updatedUser) {
+      updatedUser = await User.findOneAndUpdate(
+        {
+          _id: userId,
+          "cart.productId": { $ne: productId },
+        },
+        {
+          $push: { cart: { productId, quantity, selectedSize } },
+        },
+        { returnDocument: "after", session },
+      );
+    }
+
+    if (!updatedUser) {
+      await session.abortTransaction();
+      resp.status(404).json({
+        success: false,
+        status: 404,
+        message: "User was not found",
+      });
+      return;
+    }
+
+    await session.commitTransaction();
+
+    resp.status(201).json({
+      success: true,
+      status: 201,
+      data: updatedUser,
     });
-    return;
-  }
+  } catch (ex) {
+    await session.abortTransaction();
 
-  resp.status(201).json({
-    success: true,
-    status: 201,
-    data: updatedUser,
-  });
-});
+    resp.status(500).json({
+      success: false,
+      status: 500,
+      message: "Something went wrong",
+    });
+  } finally {
+    session.endSession();
+  }
+};
